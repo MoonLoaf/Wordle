@@ -8,20 +8,14 @@ using UnityEngine.UI;
 public class CheckGuess : MonoBehaviour
 {
     [SerializeField] private TMP_Text _playerGuess;
-    [SerializeField] private Button Enter;
+    [SerializeField] private Button _enter;
 
 
-
-
-    void Start()
-    {
-        //Debug.Log(SelectingWord.SelectedWordArray);
-    }
     private char[] StringToArray(string input)
     {
         char[] array = new char[input.Length];
         
-        for (int i = 0; i < input.Length; i++)
+        for (int i = 0; i < input.Length -1; i++)
         {
             array[i] = input[i];
         }
@@ -33,19 +27,27 @@ public class CheckGuess : MonoBehaviour
         char[] selectedWord = SelectingWord.SelectedWordArray;
         
         if(input.Length != selectedWord.Length){ return false;}
-        for(int i=0;i<input.Length;i++)
+        for(int i=0;i<input.Length - 1;i++)
         {
             if(input[i] != selectedWord[i]){ return false;}
         }
         return true;
     }
     
-    public void onButtonClick()
+    public void OnButtonClick()
     {
-        if (CheckPlayerGuess(StringToArray(_playerGuess.text)) == true)
+        if (CheckPlayerGuess(StringToArray(_playerGuess.text)))
         {
          Debug.Log("Correct");   
         }
+        else
+        {
+            for (int i = 0; i < StringToArray(_playerGuess.text).Length; i++)
+            {
+                Debug.Log(StringToArray(_playerGuess.text)[i]);
+            }
+        }
+            
     }
     
     

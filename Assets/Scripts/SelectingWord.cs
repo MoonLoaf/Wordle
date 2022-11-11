@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,7 @@ public class SelectingWord: MonoBehaviour
 
         SelectedWordArray = StringToArray(_selectedWord);
         Debug.Log(_selectedWord);
+
     }
 
     private char[] StringToArray(string input)
@@ -27,6 +29,7 @@ public class SelectingWord: MonoBehaviour
         {
             array[i] = input[i];
         }
+
         return array;
     }
 }

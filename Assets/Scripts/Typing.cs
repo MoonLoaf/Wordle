@@ -13,7 +13,4 @@ public class Typing : MonoBehaviour
     {
         _textInput.maxVisibleCharacters = 5;
     }
-    private void Update()
-    {
-    }
 }
