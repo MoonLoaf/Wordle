@@ -5,21 +5,30 @@ using Random = UnityEngine.Random;
 public class SelectingWord: MonoBehaviour
 {
     [SerializeField] private TextAsset _textFile;
+    public WordData Instance;
+    public List<string> wordList;
+
+
     private string[] _wordArray;
     private string _selectedWord;
     public static char[] SelectedWordArray;
 
     private void Awake()
     {
-        _wordArray = (_textFile.text.Split('\n'));
+        Instance = WordData.FromFile(_textFile);
 
-        int random = Random.Range(0, _wordArray.Length);
-        _selectedWord = _wordArray[random];
-
-        SelectedWordArray = StringToArray(_selectedWord);
-        Debug.Log(_selectedWord);
-
+        Debug.Log(SelectedWord(wordList));
     }
+    private string SelectedWord(List<string> words)
+    {
+        int random = Random.Range(0, _wordArray.Length);
+        return words[random]; 
+    }
+    
+    
+    
+    
+    
 
     private char[] StringToArray(string input)
     {
