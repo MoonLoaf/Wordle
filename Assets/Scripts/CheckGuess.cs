@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -11,20 +12,9 @@ public class CheckGuess : MonoBehaviour
     [SerializeField] private Button _enter;
 
 
-    private char[] StringToArray(string input)
-    {
-        char[] array = new char[input.Length];
-        
-        for (int i = 0; i < input.Length -1; i++)
-        {
-            array[i] = input[i];
-        }
-        return array;
-    }
-    
     private bool CheckPlayerGuess(char[] input)
     {
-        char[] selectedWord = SelectingWord.SelectedWordArray;
+        char[] selectedWord = StringToArray(SelectingWord.SelectedWord);
         
         if(input.Length != selectedWord.Length){ return false;}
         for(int i=0;i<input.Length - 1;i++)
@@ -33,22 +23,18 @@ public class CheckGuess : MonoBehaviour
         }
         return true;
     }
-    
-    public void OnButtonClick()
+    private char[] StringToArray(string input)
     {
-        if (CheckPlayerGuess(StringToArray(_playerGuess.text)))
+        char[] array = new char[input.Length];
+        
+        for (int i = 0; i < input.Length; i++)
         {
-         Debug.Log("Correct");   
+            array[i] = input[i];
         }
-        else
-        {
-            for (int i = 0; i < StringToArray(_playerGuess.text).Length; i++)
-            {
-                Debug.Log(StringToArray(_playerGuess.text)[i]);
-            }
-        }
-            
+
+        return array;
     }
+    
     
     
     

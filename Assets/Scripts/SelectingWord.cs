@@ -1,44 +1,28 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 public class SelectingWord: MonoBehaviour
 {
     [SerializeField] private TextAsset _textFile;
     public WordData Instance;
-    public List<string> wordList;
 
+    private static string _selectedWord;
+    public static string SelectedWord => _selectedWord;
 
-    private string[] _wordArray;
-    private string _selectedWord;
-    public static char[] SelectedWordArray;
 
     private void Awake()
     {
         Instance = WordData.FromFile(_textFile);
 
-        Debug.Log(SelectedWord(wordList));
-    }
-    private string SelectedWord(List<string> words)
-    {
-        int random = Random.Range(0, _wordArray.Length);
-        return words[random]; 
-    }
-    
-    
-    
-    
-    
-
-    private char[] StringToArray(string input)
-    {
-        char[] array = new char[input.Length];
+        _selectedWord = SelectWord(Instance.Words);
         
-        for (int i = 0; i < input.Length; i++)
-        {
-            array[i] = input[i];
-        }
-
-        return array;
+        Debug.Log(_selectedWord);
+    }
+    private string SelectWord(List<string> words)
+    {
+        int random = Random.Range(0, Instance.Words.Count);
+        return words[random]; 
     }
 }

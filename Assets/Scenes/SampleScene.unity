@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -8037,6 +8037,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 942887680}
+  - component: {fileID: 942887681}
   m_Layer: 5
   m_Name: Letter
   m_TagString: Untagged
@@ -8067,6 +8068,22 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &942887681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942887679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56da2ad93ec548149966aedfe758cb14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _correct: {r: 0, g: 0, b: 0, a: 0}
+  _wrongPosition: {r: 0, g: 0, b: 0, a: 0}
+  _wrong: {r: 0, g: 0, b: 0, a: 0}
+  _filled: {fileID: 0}
 --- !u!1 &949128757
 GameObject:
   m_ObjectHideFlags: 0
@@ -16488,8 +16505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b3074aff059d0746a9782272f8ca88a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textFile: {fileID: 4900000, guid: dccb2285601e954498a9a77f0ec10420, type: 3}
-  wordList: []
+  _textFile: {fileID: 4900000, guid: 5fe8e5a611c8f454d93f20675ce51ae2, type: 3}
 --- !u!4 &2008366851
 Transform:
   m_ObjectHideFlags: 0
