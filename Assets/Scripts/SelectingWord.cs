@@ -5,7 +5,7 @@ using Random = UnityEngine.Random;
 public class SelectingWord: MonoBehaviour
 {
     [SerializeField] private TextAsset _textFile;
-    private WordData _instance;
+    public static WordData Instance;
 
     private static string _selectedWord;
     public static string SelectedWord => _selectedWord;
@@ -13,15 +13,15 @@ public class SelectingWord: MonoBehaviour
 
     private void Awake()
     {
-        _instance = WordData.FromFile(_textFile);
+        Instance = WordData.FromFile(_textFile);
 
-        _selectedWord = SelectWord(_instance.Words);
+        _selectedWord = SelectWord(Instance.Words);
         
         Debug.Log(_selectedWord);
     }
     private string SelectWord(List<string> words)
     {
-        int random = Random.Range(0, _instance.Words.Count);
+        int random = Random.Range(0, Instance.Words.Count);
         return words[random]; 
     }
 }
