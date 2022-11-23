@@ -5,10 +5,20 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    private WordData _instance;
+    
     [SerializeField] private List<GameObject> _rows;
 
-    private int _rowIndex;
-    private int _letterIndex;
+    private int _rowIndex = 0;
+    private int _letterIndex = 0;
+
+    private TMP_Text _currentLetterText;
+
+    private void Start()
+    {
+        
+        
+    }
 
     private void Update()
     {
@@ -25,14 +35,23 @@ public class GameManager : MonoBehaviour
             if (letter == '\b')
             {
                 DeleteLetter();
+                if(_letterIndex != 0)
+                    _letterIndex--;
             }
             else if ((letter == '\n') || letter == '\r')
             {
                 CheckGuess();
+                if (_rowIndex <= _rows.Count)
+                {
+                    _rowIndex++;
+                    _letterIndex = 0;
+                }
             }
-            else
+            else if(_letterIndex <= 4) //length of RowScript.Letters List
             {
-                //letter = _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponent<TMP_Text>().ToString().ToUpper();
+                //Sets Letter to input and adds to letterIndex
+                _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponentInChildren<TMP_Text>().text = letter.ToString().ToUpper();
+                _letterIndex++;
             }
         }
         
@@ -40,12 +59,32 @@ public class GameManager : MonoBehaviour
     }
     private void DeleteLetter()
     {
-        //remove input text from current letter
+        _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex - 1].GetComponentInChildren<TMP_Text>().text = null;
     }
 
     private void CheckGuess()
     {
-        //Check player guess against selected word
+        char[] guessedWord = new char[5];
+        
+        for (int i = 0; i < 5; i++)
+        {
+            guessedWord[i] = _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<TMP_Text>().text[0];
+        }
+        
+        Debug.Log(guessedWord.ToString());
+
+        // if (WordExistence(guessedWord.ToString()))
+        // {
+        //     int correct = string.Compare(guessedWord.ToString(), SelectingWord.SelectedWord, true);
+        //     
+        //     Debug.Log(correct);
+        //
+        //
+        // }
+    }
+    private bool WordExistence(string input)
+    {
+        return _instance.Words.Contains(input);
     }
 
 }
