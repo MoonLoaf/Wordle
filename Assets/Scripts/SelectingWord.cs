@@ -10,6 +10,8 @@ public class SelectingWord: MonoBehaviour
     private static string _selectedWord;
     public static string SelectedWord => _selectedWord;
 
+    public static List<char> SelectedWordList;
+
 
     private void Awake()
     {
@@ -18,6 +20,12 @@ public class SelectingWord: MonoBehaviour
         _selectedWord = SelectWord(Instance.Words);
         
         Debug.Log(_selectedWord);
+
+        SelectedWordList = new List<char>();
+        for (int i = 0; i < _selectedWord.Length; i++)
+        {
+            SelectedWordList.Add(SelectedWord.ToUpper()[i]);
+        }
     }
     private string SelectWord(List<string> words)
     {

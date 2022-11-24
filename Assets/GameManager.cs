@@ -13,12 +13,6 @@ public class GameManager : MonoBehaviour
 
     private TMP_Text _currentLetterText;
 
-    private void Start()
-    {
-        
-        
-    }
-
     private void Update()
     {
         if (Input.anyKeyDown)
@@ -26,7 +20,6 @@ public class GameManager : MonoBehaviour
             CheckInput(Input.inputString);
         }
     }
-
     private void CheckInput(string input)
     {
         foreach (char letter in input)
@@ -55,45 +48,64 @@ public class GameManager : MonoBehaviour
                 _letterIndex++;
             }
         }
-        
     }
     private void DeleteLetter()
     {
         _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex - 1].GetComponentInChildren<TMP_Text>().text = null;
     }
-
     private bool CheckGuess()
     {
-        char[] guessedWord = new char[5];
+        char[] guessedWordArr = new char[5];
 
         for (int i = 0; i < 5; i++)
         {
-            guessedWord[i] = _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<TMP_Text>().text[0];
+            guessedWordArr[i] = _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<TMP_Text>().text[0];
         }
 
-        string guessedWordString = new string(guessedWord);
+        string guessedWord = new string(guessedWordArr);
         
         //check word existence
-        if (!WordExistence(guessedWordString))
+        if (!WordExistence(guessedWord))
         {
             return false;
         }
 
         //check if word is correct
         
-        int correct = string.Compare(guessedWordString, SelectingWord.SelectedWord, true);
+        int correct = string.Compare(guessedWord, SelectingWord.SelectedWord, true);
         
         //if word is not correct:
         if (correct != 0)
         {
             Debug.Log("Word is incorrect");
-
+            
+            //check letters against selected word
+            for (int i = 0; i < guessedWord.Length; i++)
+            {
+                if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] == guessedWordArr[i])
+                {
+                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+                }
+                else if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] != guessedWordArr[i])
+                {
+                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
+                }
+                else if(!SelectingWord.SelectedWordList.Contains(guessedWordArr[i]))
+                {
+                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
+                }
+            }
+            
             _rowIndex++;
             _letterIndex = 0;
             return false;
         }
-        
+
         //else
+        for (int i = 0; i < guessedWord.Length ; i++)
+        {
+            _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+        }
         return true;
     }
     private bool WordExistence(string input)
@@ -109,6 +121,11 @@ public class GameManager : MonoBehaviour
     private void LossGameOver()
     {
         Debug.Log("You lose");
+    }
+
+    public void OnButtonClick()
+    {
+        CheckGuess();
     }
 
 }
