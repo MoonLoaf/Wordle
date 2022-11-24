@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] private List<GameObject> _rows;
 
+    private bool _inputEnabled = true;
     private int _rowIndex = 0;
     private int _letterIndex = 0;
 
@@ -15,7 +16,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.anyKeyDown)
+        if (Input.anyKeyDown && _inputEnabled)
         {
             CheckInput(Input.inputString);
         }
@@ -115,11 +116,13 @@ public class GameManager : MonoBehaviour
 
     private void WinGameOver()
     {
+        _inputEnabled = false;
         Debug.Log("You Win");
     }
 
     private void LossGameOver()
     {
+        _inputEnabled = false;
         Debug.Log("You lose");
     }
 
