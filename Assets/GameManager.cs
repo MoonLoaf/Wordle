@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
             if (letter == '\b')
             {
                 DeleteLetter();
-                if(_letterIndex != 0)
+                if (_letterIndex != 0)
                     _letterIndex--;
             }
             else if ((letter == '\n') || letter == '\r')
