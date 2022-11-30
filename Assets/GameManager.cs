@@ -6,14 +6,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField]private KeyDictionary _keyDictionary;
     [SerializeField] private List<GameObject> _rows;
 
     private bool _inputEnabled = true;
     private int _rowIndex = 0;
     private int _letterIndex = 0;
-
-    private TMP_Text _currentLetterText;
-
+    
     private void Update()
     {
         if (Input.anyKeyDown && _inputEnabled)
@@ -86,14 +85,17 @@ public class GameManager : MonoBehaviour
                 if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] == guessedWordArr[i])
                 {
                     _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
                 }
                 else if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] != guessedWordArr[i])
                 {
                     _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
+                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
                 }
                 else if(!SelectingWord.SelectedWordList.Contains(guessedWordArr[i]))
                 {
                     _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
+                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
                 }
             }
             
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < guessedWord.Length ; i++)
         {
             _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+            _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
         }
         return true;
     }
