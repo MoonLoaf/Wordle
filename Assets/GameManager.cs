@@ -26,9 +26,10 @@ public class GameManager : MonoBehaviour
         {
             if (letter == '\b')
             {
-                DeleteLetter();
                 if (_letterIndex != 0)
                     _letterIndex--;
+                
+                DeleteLetter();
             }
             else if ((letter == '\n') || letter == '\r')
             {
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour
     }
     private void DeleteLetter()
     {
-        _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex - 1].GetComponentInChildren<TMP_Text>().text = null;
+        _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponentInChildren<TMP_Text>().text = null;
     }
     private bool CheckGuess()
     {
