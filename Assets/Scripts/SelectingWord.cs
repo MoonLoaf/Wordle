@@ -19,8 +19,6 @@ public class SelectingWord: MonoBehaviour
 
         _selectedWord = SelectWord(Instance.Words);
         
-        Debug.Log(_selectedWord);
-
         SelectedWordList = new List<char>();
         for (int i = 0; i < _selectedWord.Length; i++)
         {

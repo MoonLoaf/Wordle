@@ -86,25 +86,20 @@ public class GameManager : MonoBehaviour
         //if word is not correct:
         if (correct != 0)
         {
-            Debug.Log("Word is incorrect");
-            
             //check letters against selected word
             for (int i = 0; i < guessedWord.Length; i++)
             {
                 if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] == guessedWordArr[i])
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
-                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+                    SetLetterColor(guessedWord, i , LetterEnum.Correct);
                 }
                 else if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] != guessedWordArr[i])
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
-                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
+                    SetLetterColor(guessedWord, i , LetterEnum.WrongPosition);
                 }
                 else if(!SelectingWord.SelectedWordList.Contains(guessedWordArr[i]))
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
-                    _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
+                    SetLetterColor(guessedWord, i, LetterEnum.Wrong);
                 }
             }
             
@@ -116,36 +111,36 @@ public class GameManager : MonoBehaviour
         //else
         for (int i = 0; i < guessedWord.Length ; i++)
         {
-            _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
-            _keyDictionary.KeyboardDict[key:guessedWord[i]].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+            SetLetterColor(guessedWord, i, LetterEnum.Correct);
         }
         return true;
     }
 
-    private void SetLetterColor(LetterEnum color)
+    private void SetLetterColor(string key, int i, LetterEnum color)
     {
-        
-        
+        _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(color);
+        _keyDictionary.KeyboardDict[key:key[i]].GetComponentInChildren<LetterState>().SetLetterColor(color);
     }
-
     private bool WordExistence(string input)
     {
         return SelectingWord.Instance.Words.Contains(input.ToLower());
     }
-
     private void WinGameOver()
     {
         _inputEnabled = false;
         
         _endScreen.SetActive(true);
-    }
 
+        _endScreen.GetComponentInChildren<TMP_Text>().text = "You Win!";
+    }
     private void LossGameOver()
     {
         _inputEnabled = false;
-        Debug.Log("You lose");
-    }
+        
+        _endScreen.SetActive(true);
 
+        _endScreen.GetComponentInChildren<TMP_Text>().text = "You Lose \n The Correct Word Was: \n \n" + "'" + SelectingWord.SelectedWord.ToUpper() + "'";
+    }
     public void OnButtonClick()
     {
         CheckGuess();
@@ -154,5 +149,4 @@ public class GameManager : MonoBehaviour
     {
         SceneManager.LoadScene(sceneBuildIndex: 0);
     }
-
 }

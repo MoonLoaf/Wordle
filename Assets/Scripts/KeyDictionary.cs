@@ -13,8 +13,6 @@ public class KeyDictionary : MonoBehaviour
         KeyboardDict = new Dictionary<char, GameObject>();
 
         AddDescendants(transform, KeyboardDict);
-        
-        Debug.Log(KeyboardDict.ContainsKey('Q'));
     }
     private void AddDescendants(Transform parent, Dictionary<char, GameObject> dict)
     {

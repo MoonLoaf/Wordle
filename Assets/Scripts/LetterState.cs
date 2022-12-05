@@ -10,7 +10,6 @@ public class LetterState : MonoBehaviour
     
     private Image _letterBackground;
 
-
     private void Start()
     {
         _letterBackground = GetComponentInChildren<Image>();
@@ -37,7 +36,6 @@ public class LetterState : MonoBehaviour
             case LetterEnum.Unknown:
                 _letterBackground.color = _unknown;
                 break;
-
         }
     }
 }
