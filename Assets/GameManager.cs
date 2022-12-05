@@ -3,16 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField]private KeyDictionary _keyDictionary;
     [SerializeField] private List<GameObject> _rows;
 
+    [SerializeField] private GameObject _endScreen;
+    
+
     private bool _inputEnabled = true;
     private int _rowIndex = 0;
     private int _letterIndex = 0;
-    
+
+    private void Start()
+    {
+        _endScreen.SetActive(false);
+    }
     private void Update()
     {
         if (Input.anyKeyDown && _inputEnabled)
@@ -33,7 +41,7 @@ public class GameManager : MonoBehaviour
             }
             else if ((letter == '\n') || letter == '\r')
             {
-                if (CheckGuess() == true)
+                if (CheckGuess())
                 {
                     WinGameOver();
                 }
@@ -113,6 +121,13 @@ public class GameManager : MonoBehaviour
         }
         return true;
     }
+
+    private void SetLetterColor(LetterEnum color)
+    {
+        
+        
+    }
+
     private bool WordExistence(string input)
     {
         return SelectingWord.Instance.Words.Contains(input.ToLower());
@@ -121,7 +136,8 @@ public class GameManager : MonoBehaviour
     private void WinGameOver()
     {
         _inputEnabled = false;
-        Debug.Log("You Win");
+        
+        _endScreen.SetActive(true);
     }
 
     private void LossGameOver()
@@ -133,6 +149,10 @@ public class GameManager : MonoBehaviour
     public void OnButtonClick()
     {
         CheckGuess();
+    }
+    public void OnRestartClick()
+    {
+        SceneManager.LoadScene(sceneBuildIndex: 0);
     }
 
 }

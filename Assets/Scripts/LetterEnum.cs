@@ -4,5 +4,4 @@ public enum LetterEnum
    WrongPosition = 1,
    Wrong = 2,
    Unknown = 3
-
 }
