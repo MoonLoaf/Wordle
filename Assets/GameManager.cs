@@ -6,13 +6,31 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> _rows;
+    private List<List<GameObject>> _rowList;
+
+    [SerializeField] private List<GameObject> _row1Letters;
+    [SerializeField] private List<GameObject> _row2Letters;
+    [SerializeField] private List<GameObject> _row3Letters;
+    [SerializeField] private List<GameObject> _row4Letters;
+    [SerializeField] private List<GameObject> _row5Letters;
 
     private bool _inputEnabled = true;
     private int _rowIndex = 0;
     private int _letterIndex = 0;
 
     private TMP_Text _currentLetterText;
+
+    private void Start()
+    {
+        _rowList = new List<List<GameObject>>(5);
+        _rowList.Clear();
+        
+        _rowList.Add(_row1Letters);
+        _rowList.Add(_row2Letters);
+        _rowList.Add(_row3Letters);
+        _rowList.Add(_row4Letters);
+        _rowList.Add(_row5Letters);
+    }
 
     private void Update()
     {
@@ -45,14 +63,14 @@ public class GameManager : MonoBehaviour
             else if(_letterIndex <= 4) //length of RowScript.Letters List
             {
                 //Sets Letter to input and adds to letterIndex
-                _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponentInChildren<TMP_Text>().text = letter.ToString().ToUpper();
+                _rowList[_rowIndex][_letterIndex].GetComponentInChildren<TMP_Text>().text = letter.ToString().ToUpper();
                 _letterIndex++;
             }
         }
     }
     private void DeleteLetter()
     {
-        _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex - 1].GetComponentInChildren<TMP_Text>().text = null;
+        _rowList[_rowIndex][_letterIndex - 1].GetComponentInChildren<TMP_Text>().text = null;
     }
     private bool CheckGuess()
     {
@@ -60,7 +78,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            guessedWordArr[i] = _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<TMP_Text>().text[0];
+            guessedWordArr[i] = _rowList[_rowIndex][i].GetComponentInChildren<TMP_Text>().text[0];
         }
 
         string guessedWord = new string(guessedWordArr);
@@ -85,15 +103,15 @@ public class GameManager : MonoBehaviour
             {
                 if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] == guessedWordArr[i])
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+                    _rowList[_rowIndex][i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
                 }
                 else if (SelectingWord.SelectedWordList.Contains(guessedWordArr[i]) && SelectingWord.SelectedWordList[i] != guessedWordArr[i])
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
+                    _rowList[_rowIndex][i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.WrongPosition);
                 }
                 else if(!SelectingWord.SelectedWordList.Contains(guessedWordArr[i]))
                 {
-                    _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
+                    _rowList[_rowIndex][i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Wrong);
                 }
             }
             
@@ -105,7 +123,7 @@ public class GameManager : MonoBehaviour
         //else
         for (int i = 0; i < guessedWord.Length ; i++)
         {
-            _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
+            _rowList[_rowIndex][i].GetComponentInChildren<LetterState>().SetLetterColor(LetterEnum.Correct);
         }
         return true;
     }

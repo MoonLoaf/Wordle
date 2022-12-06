@@ -3,10 +3,10 @@ using UnityEngine.UI;
 
 public class LetterState : MonoBehaviour
 {
-    private Color _correct = Color.green;
-    private Color _wrongPosition = Color.yellow;
-    private Color _wrong = Color.red;
-    private Color _unknown = Color.gray;
+    private readonly Color _correct = Color.green;
+    private readonly Color _wrongPosition = Color.yellow;
+    private readonly Color _wrong = Color.red;
+    private readonly Color _unknown = Color.gray;
     
     private Image _letterBackground;
 
