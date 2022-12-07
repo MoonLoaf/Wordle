@@ -7,8 +7,15 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    private List<List<GameObject>> _rowsList;
+
+    [SerializeField] private List<GameObject> _row1;
+    [SerializeField] private List<GameObject> _row2;
+    [SerializeField] private List<GameObject> _row3;
+    [SerializeField] private List<GameObject> _row4;
+    [SerializeField] private List<GameObject> _row5;
+
     [SerializeField]private KeyDictionary _keyDictionary;
-    [SerializeField] private List<GameObject> _rows;
 
     [SerializeField] private GameObject _endScreen;
     
@@ -20,6 +27,15 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         _endScreen.SetActive(false);
+
+        _rowsList = new List<List<GameObject>>(5);
+        _rowsList.Clear();
+        
+        _rowsList.Add(_row1);
+        _rowsList.Add(_row2);
+        _rowsList.Add(_row3);
+        _rowsList.Add(_row4);
+        _rowsList.Add(_row5);
     }
     private void Update()
     {
@@ -53,14 +69,14 @@ public class GameManager : MonoBehaviour
             else if(_letterIndex <= 4) //length of RowScript.Letters List
             {
                 //Sets Letter to input and adds to letterIndex
-                _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponentInChildren<TMP_Text>().text = letter.ToString().ToUpper();
+                _rowsList[_rowIndex][_letterIndex].GetComponentInChildren<TMP_Text>().text = letter.ToString().ToUpper();
                 _letterIndex++;
             }
         }
     }
     private void DeleteLetter()
     {
-        _rows[_rowIndex].GetComponent<RowScript>().Letters[_letterIndex].GetComponentInChildren<TMP_Text>().text = null;
+        _rowsList[_rowIndex][_letterIndex].GetComponentInChildren<TMP_Text>().text = null;
     }
     private bool CheckGuess()
     {
@@ -68,7 +84,7 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < 5; i++)
         {
-            guessedWordArr[i] = _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<TMP_Text>().text[0];
+            guessedWordArr[i] = _rowsList[_rowIndex][i].GetComponentInChildren<TMP_Text>().text[0];
         }
 
         string guessedWord = new string(guessedWordArr);
@@ -118,7 +134,7 @@ public class GameManager : MonoBehaviour
 
     private void SetLetterColor(string key, int i, LetterEnum color)
     {
-        _rows[_rowIndex].GetComponent<RowScript>().Letters[i].GetComponentInChildren<LetterState>().SetLetterColor(color);
+        _rowsList[_rowIndex][i].GetComponentInChildren<LetterState>().SetLetterColor(color);
         _keyDictionary.KeyboardDict[key:key[i]].GetComponentInChildren<LetterState>().SetLetterColor(color);
     }
     private bool WordExistence(string input)
@@ -139,7 +155,7 @@ public class GameManager : MonoBehaviour
         
         _endScreen.SetActive(true);
 
-        _endScreen.GetComponentInChildren<TMP_Text>().text = "You Lose \n The Correct Word Was: \n \n" + "'" + SelectingWord.SelectedWord.ToUpper() + "'";
+        _endScreen.GetComponentInChildren<TMP_Text>().text = "You Lose \n The Correct Word Was: \n \n" + "\"" + SelectingWord.SelectedWord.ToUpper() + "\"";
     }
     public void OnButtonClick()
     {
